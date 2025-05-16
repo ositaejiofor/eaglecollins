@@ -1,0 +1,10 @@
+
+<nav class="space-x-6 text-sm font-medium">
+          <a href="{% url 'blog_home' %}" class="text-gray-700 hover:text-indigo-600">Home</a>
+          <a href="{% url 'blog' %}">{{ post.title }}Blog</a>
+          <a href="{% url 'contact' %}" class="text-gray-700 hover:text-indigo-600">Contact</a>
+          <a href="{% url 'about' %}" class="text-gray-700 hover:text-indigo-600">About</a>
+          <a href="{% url 'blog/products' %}" class="text-gray-700 hover:text-indigo-600">Products</a>
+          <a href="{% url 'blog/services' %}" class="text-gray-700 hover:text-indigo-600">Services</a>
+          <a href="{% url 'blog/multi-tech' %}" class="text-gray-700 hover:text-indigo-600">Multi-Tech</a>
+        </nav>

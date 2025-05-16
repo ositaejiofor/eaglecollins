@@ -1,0 +1,42 @@
+<div class="comment-section">
+  <!-- Display existing comments -->
+  {% for comment in comments %}
+    <div class="comment">
+      <p>{{ comment.name }} - {{ comment.date|date:"M d, Y H:i" }}</p>
+      <p>{{ comment.comment }}</p>
+
+      <!-- Display replies -->
+      {% if comment.replies.all %}
+        <div class="replies">
+          {% for reply in comment.replies.all %}
+            <div class="reply">
+              <p>{{ reply.name }} - {{ reply.date|date:"M d, Y H:i" }}</p>
+              <p>{{ reply.comment }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Reply form -->
+      <button onclick="toggleReplyForm({{ comment.id }})">Reply</button>
+      <div id="reply-form-{{ comment.id }}" class="reply-form" style="display:none;">
+        <form method="POST" action="{% url 'blog_detail' pk=post.pk %}">
+          {% csrf_token %}
+          <input type="hidden" name="parent_id" value="{{ comment.id }}">
+          <input type="text" name="name" placeholder="Your Name" required>
+          <textarea name="comment" placeholder="Write a reply..." required></textarea>
+          <button type="submit">Post Reply</button>
+        </form>
+      </div>
+    </div>
+  {% endfor %}
+
+  <!-- Comment form -->
+  <h3>Leave a Comment</h3>
+  <form method="POST" action="{% url 'blog_detail' pk=post.pk %}">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Your Name" required>
+    <textarea name="comment" placeholder="Write your comment..." required></textarea>
+    <button type="submit">Post Comment</button>
+  </form>
+</div>

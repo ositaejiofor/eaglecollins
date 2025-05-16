@@ -1,0 +1,21 @@
+    {% extends "base.html" %}
+    {% load static %}
+
+    {% block title %}EagleCollins - Products{% endblock title %}
+
+    {% block content %}
+    <h1>Products</h1>
+    <div class="products">
+        {% for product in products %}
+            <div class="product">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width:200px;">
+                {% endif %}
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.description }}</p>
+                <p><strong>${{ product.price }}</strong></p>
+            </div>
+        {% endfor %}
+    </div>
+     {% endblock content %}
+

@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header, footer {
+    background-color: #333;
+    color: white;
+    padding: 1em;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+main {
+    padding: 2em;
+}
+
+.products, .services {
+    display: flex;
+    gap: 2em;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.product, .service {
+    border: 1px solid #ccc;
+    padding: 1em;
+    width: 250px;
+    text-align: center;
+}
+
+.product img {
+    max-width: 100%;
+    height: auto;
+}
+
+.tech-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.tech-item {
+    border: 1px solid #ccc;
+    padding: 1em;
+    width: 200px;
+}
+
+
+

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4 fw-bold">All Blog Posts</h2>
+
+    {% if post.image %}
+        <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full mt-4 rounded-lg">
+    {% endif %}
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for post in posts %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text text-muted" style="min-height: 80px;">
+                        {{ post.body|truncatewords:25 }}
+                    </p>
+                    <a href="{% url 'blog_detail' post.pk %}" class="btn btn-sm btn-outline-primary">
+                        Read More <i class="bi bi-arrow-right-circle ms-1"></i>
+                    </a>
+                </div>
+                <div class="card-footer bg-white text-muted small">
+                    Published on {{ post.published_date|date:"M d, Y" }}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No blog posts found.</p>
+        {% endfor %}
+    </div>
+
+    <div class="row mb-4">
+    <div class="col-lg-4">
+        <form method="get" class="d-flex gap-2">
+            <select name="category" class="form-select" onchange="this.form.submit()">
+                <option value="">All Categories</option>
+                {% for cat in categories %}
+                <option value="{{ cat }}" {% if cat == selected_category %}selected{% endif %}>{{ cat }}</option>
+                {% endfor %}
+            </select>
+            <noscript><button type="submit" class="btn btn-primary">Filter</button></noscript>
+        </form>
+    </div>
+
+    <div class="col-lg-8">
+        <!-- Optional search bar placeholder -->
+        <form method="get" class="input-group">
+            <input type="text" name="search" class="form-control" placeholder="Search posts... (coming soon)" disabled>
+            <button class="btn btn-outline-secondary" type="submit" disabled>Search</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <nav class="mt-5">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                    &laquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&laquo;</span>
+            </li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                    &raquo;
+                </a>
+            </li>
+            {% else %}
+            <li class="page-item disabled">
+                <span class="page-link">&raquo;</span>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

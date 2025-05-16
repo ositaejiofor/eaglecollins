@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+        <h1>Multi-Tech Solutions</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Technologies We Use</h2>
+            <div class="tech-list">
+                {% for tech in technologies %}
+                    <div class="tech-item">
+                        <h3>{{ tech.name }}</h3>
+                        <p>{{ tech.description }}</p>
+                        {% if tech.logo %}
+                            <img src="{{ tech.logo.url }}" alt="{{ tech.name }} logo" style="max-width:100px;">
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    {% endblock content %}
+

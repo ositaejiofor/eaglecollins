@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}EagleCollins{% endblock title %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-6">
+
+  <h1 class="text-center text-3xl font-bold mb-8 text-indigo-700">Welcome to Eagle Collins</h1>
+
+  {% if posts %}
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {% for post in posts %}
+        <div class="bg-white rounded-xl shadow hover:shadow-lg transition duration-300 flex flex-col">
+          <a href="{% url 'blog_detail' pk=post.pk %}">
+            {% if post.image %}
+              <img src="{{ post.image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover rounded-t-xl">
+            {% endif %}
+            <div class="p-4 flex flex-col justify-between flex-grow">
+              <h2 class="text-lg font-semibold text-indigo-700 hover:text-indigo-900 mb-2">{{ post.title|truncatechars:60 }}</h2>
+              <p class="text-sm text-gray-600 mb-4">{{ post.content|striptags|truncatewords:25 }}</p>
+              <div class="text-sm text-gray-500 mb-2">
+                By: {{ post.author }} | {{ post.published_date|date:"F d, Y" }}
+              </div>
+              <div class="mt-auto text-right">
+                <span class="text-indigo-600 font-medium hover:underline">Read More →</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-600 text-center">No posts available.</p>
+  {% endif %}
+
+</div>
+{% endblock content %}

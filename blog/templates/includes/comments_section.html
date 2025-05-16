@@ -1,0 +1,56 @@
+{# templates/partials/comments_section.html #}
+<h2 class="text-xl font-bold mb-4">{{ comments.count }} Comments</h2>
+
+<div id="comments-list" class="space-y-6">
+  {% for comment in comments %}
+    <div class="border border-gray-200 p-4 rounded-lg">
+      <p class="text-sm text-gray-600 mb-1"><strong>{{ comment.name }}</strong> on {{ comment.date|date:"M d, Y H:i" }}</p>
+      <p class="text-gray-800">{{ comment.comment }}</p>
+
+      <button class="text-sm text-indigo-600 hover:underline mt-2 reply-btn" data-comment-id="{{ comment.id }}">Reply</button>
+
+      <!-- Reply Form Placeholder -->
+      <div id="reply-form-{{ comment.id }}" class="hidden mt-4">
+        <form method="POST" action="{% url 'blog_detail' post.pk %}" class="space-y-3">
+          {% csrf_token %}
+          <input type="hidden" name="parent_id" value="{{ comment.id }}">
+          <input type="text" name="name" placeholder="Your name" class="w-full border rounded p-2" required>
+          <input type="email" name="email" placeholder="Your email" class="w-full border rounded p-2" required>
+          <textarea name="comment" rows="2" class="w-full border rounded p-2" placeholder="Reply..." required></textarea>
+          <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Post Reply</button>
+        </form>
+      </div>
+
+      {% for reply in comment.replies.all %}
+        <div class="ml-6 mt-4 border-l-2 border-gray-300 pl-4">
+          <p class="text-sm text-gray-600"><strong>{{ reply.name }}</strong> replied:</p>
+          <p class="text-gray-800">{{ reply.comment }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% empty %}
+    <p>No comments yet. Be the first to comment!</p>
+  {% endfor %}
+</div>
+
+<hr class="my-6">
+
+<!-- Main Comment Form -->
+<h3 class="text-lg font-semibold mb-2">Leave a Comment</h3>
+<form method="POST" class="space-y-3">
+  {% csrf_token %}
+  <input type="text" name="name" placeholder="Your name" class="w-full border rounded p-2" required>
+  <input type="email" name="email" placeholder="Your email" class="w-full border rounded p-2" required>
+  <textarea name="comment" rows="4" class="w-full border rounded p-2" placeholder="Write your comment here..." required></textarea>
+  <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Submit</button>
+</form>
+
+<!-- Reply toggle script -->
+<script>
+  document.querySelectorAll('.reply-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const replyForm = document.getElementById('reply-form-' + button.dataset.commentId);
+      replyForm.classList.toggle('hidden');
+    });
+  });
+</script>

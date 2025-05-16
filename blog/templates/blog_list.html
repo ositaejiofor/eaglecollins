@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>All Blog Posts</h1>
+
+    {% for post in page_obj %}
+        <div>
+            <h2><a href="{% url 'blog_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <p>{{ post.summary }}</p> <!-- or post.body|truncatewords:30 -->
+        </div>
+    {% empty %}
+        <p>No posts available.</p>
+    {% endfor %}
+
+    <!-- Pagination controls -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
+{% endblock %}

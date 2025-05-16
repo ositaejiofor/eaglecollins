@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Our Services{% endblock title %}{% block content %}
+<title>Our Services</title>
+</head>
+<body>
+    <h1>Services</h1>
+    <div class="services">
+        {% for service in services %}
+            <div class="service">
+                <h2>{{ service.title }}</h2>
+                <p>{{ service.description }}</p>
+            </div>
+        {% endfor %}
+    </div>
+        <section class="services">
+            <article class="service">
+                <h2>Consulting</h2>
+                <p>Expert advice to help your business grow.</p>
+            </article>
+
+            <article class="service">
+                <h2>Installation</h2>
+                <p>Professional setup and integration services.</p>
+            </article>
+
+            <article class="service">
+                <h2>Support</h2>
+                <p>24/7 customer support and troubleshooting.</p>
+            </article>
+        </section>
+    </main>
+    {% endblock content %}
+
+
